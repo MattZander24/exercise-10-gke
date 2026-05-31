@@ -1,1 +1,22 @@
-# TODO: RabbitMQ Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: app
+  labels:
+    app: exercise-10
+    component: rabbitmq
+spec:
+  selector:
+    app: exercise-10
+    component: rabbitmq
+  ports:
+    - name: amqp
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: management
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+  type: ClusterIP

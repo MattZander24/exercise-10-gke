@@ -1,1 +1,49 @@
-# TODO: API Deployment with HPA
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: app
+  labels:
+    app: exercise-10
+    component: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: exercise-10
+      component: api
+  template:
+    metadata:
+      labels:
+        app: exercise-10
+        component: api
+    spec:
+      containers:
+        - name: api
+          image: gcr.io/google-samples/hello-app:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: postgresql://grader:example@postgres:5432/appdb
+            - name: POSTGRES_DB
+              value: appdb
+            - name: POSTGRES_USER
+              value: grader
+            - name: POSTGRES_PASSWORD
+              value: example
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 3

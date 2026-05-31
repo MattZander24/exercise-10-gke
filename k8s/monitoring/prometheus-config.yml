@@ -1,1 +1,31 @@
-# TODO: Prometheus ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: app
+  labels:
+    app: exercise-10
+    component: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    scrape_configs:
+      - job_name: kubernetes-pods
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace]
+            regex: app
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_label_component]
+            regex: api|db|rabbitmq|monitoring
+            action: keep
+      - job_name: kubernetes-services
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace]
+            regex: app
+            action: keep

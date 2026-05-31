@@ -1,1 +1,57 @@
-# TODO: Prometheus Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: app
+  labels:
+    app: exercise-10
+    component: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exercise-10
+      component: monitoring
+  template:
+    metadata:
+      labels:
+        app: exercise-10
+        component: monitoring
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.50.0
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config
+              mountPath: /etc/prometheus
+            - name: storage
+              mountPath: /prometheus
+      volumes:
+        - name: config
+          configMap:
+            name: prometheus-config
+        - name: storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: app
+  labels:
+    app: exercise-10
+    component: monitoring
+spec:
+  selector:
+    app: exercise-10
+    component: monitoring
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+  type: ClusterIP

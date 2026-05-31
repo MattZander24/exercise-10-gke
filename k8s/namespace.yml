@@ -1,1 +1,7 @@
-# TODO: Namespace for the application
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app
+  labels:
+    name: app
+    environment: production

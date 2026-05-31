@@ -1,1 +1,17 @@
-# TODO: PostgreSQL Service (ClusterIP)
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: app
+  labels:
+    app: exercise-10
+    component: db
+spec:
+  selector:
+    app: exercise-10
+    component: db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
