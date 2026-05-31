@@ -1,4 +1,4 @@
-# Exercise 10 — Full System on GKE (Terraform + Kubernetes)
+# Exercise 10 — Full System on GKE (Terraform + Kubernetes) 
 
 > **Distributed Systems & Parallel Programming — UNLu 2026**
 >
@@ -9,7 +9,7 @@
 ## Course topics covered
 
 | Unit | Topic | How it applies here |
-|------|-------|-------------------|
+|------|-------|---------------------|
 | **U3.1 Cloud Computing, U4.4 Kubernetes, U5.6 Infrastructure as Code (Terraform)** | U3.1 Cloud Computing, U4.4 Kubernetes, U5.6 Infrastructure as Code (Terraform) | Deploy the complete system to Google Kubernetes Engine with Terraform for infra. |
 
 ---
